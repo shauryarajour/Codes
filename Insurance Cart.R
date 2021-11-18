@@ -1,0 +1,16 @@
+insurance <- read.csv(file.choose())
+summary(insurance)
+str(insurance)
+set.seed(1000)
+sample<-sample.split(insurance,SplitRatio = 0.7)
+train<-subset(insurance,sample==T)
+test<-subset(insurance,sample==F)
+nrow(train)
+nrow(test)
+str(train)
+r.ctrl<-rpart.control(minsplit = 150,minbucket = 10,cp=0,xval = 10)
+ml2<-rpart(Claimed~Commision+Channel+Duration+Sales+Product.Name+Destination,data = train,control = r.ctrl,method = "class")
+control=r.ctrl
+fancyRpartPlot(ml2)
+printcp(ml2)
+
